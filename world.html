@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="js/jscolor.js"></script>
+<link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style>
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 960px;
+  height: 500px;
+  position: relative;
+}
+
+#canvas {
+}
+
+#canvas-svg {
+}
+
+
+.land {
+  fill: #222;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+#tooltip-container {
+  position: absolute;
+  background-color: #fff;
+  color: #000;
+  padding: 10px;
+  border: 1px solid;
+  display: none;
+}
+
+.tooltip_key {
+  font-weight: bold;
+}
+
+.tooltip_value {
+  margin-left: 20px;
+  float: right;
+}
+
+.topleft{
+  position: fixed;
+  top: 15px;
+  left: 15px;
+}
+
+.dropdown-menu{
+  padding: 5px;
+}
+
+li{
+  margin-top: 5px;
+}
+
+.dropdown-menu>li
+{ position:relative;
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+  cursor:pointer;
+}
+.dropdown-menu .sub-menu {
+    left: 100%;
+    position: absolute;
+    top: 0;
+    display:none;
+    margin-top: -1px;
+  border-top-left-radius:0;
+  border-bottom-left-radius:0;
+  border-left-color:#fff;
+  box-shadow:none;
+}
+.right-caret:after
+ {  content:"";
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-left: 4px solid orange;
+    display: inline-block;
+    height: 0;
+    opacity: 0.8;
+    vertical-align: middle;
+    width: 0;
+  margin-left:5px;
+}
+.left-caret:after
+{ content:"";
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-right: 4px solid orange;
+    display: inline-block;
+    height: 0;
+    opacity: 0.8;
+    vertical-align: middle;
+    width: 0;
+  margin-left:5px;
+}
+
+</style>
+<body>
+  <div id="menu" class="dropdown topleft">
+    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">Controls
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li>
+        <p>Color1: <input id="color1" class="jscolor" value="99ccff"></p>
+      </li>
+      <li>
+        <p>Color2: <input id="color2" class="jscolor" value="0050A1"></p>
+      </li>
+      <li>
+        <p>Color Counts: <input id="color3" value="9"></p>
+      </li>
+      <li>
+        <button class="redraw btn btn-primary btn-xs" style="width: 100%">redraw</button>
+      </li> 
+    </ul>
+  </div>
+  <div id="tooltip-container"></div>
+  <div id="canvas-svg"></div>
+</body>
+<script>
+// config attributes, global
+var config = {"label0":"label 0","label1":"label 1"}
+
+var dataSource = "data/forest.csv";
+
+var MAP_KEY = "Country Name";
+var MAP_VALUE = "Forest area (% of land area) [AG.LND.FRST.ZS]";
+
+
+
+// whole drawing function
+function d3run(){
+  var color1 = '#'+$('#color1').val();
+  var color2 = '#'+$('#color2').val();
+  d3.csv(dataSource, function(err, data) {
+    // console.log(d3.keys(data[0])[0]);
+    var width = window.innerWidth-10,
+        height = window.innerHeight-20;
+    
+    var COLOR_COUNTS = $('#color3').val();
+    
+    function Interpolate(start, end, steps, count) {
+        var s = start,
+            e = end,
+            final = s + (((e - s) / steps) * count);
+        return Math.floor(final);
+    }
+    
+    function Color(_r, _g, _b) {
+        var r, g, b;
+        var setColors = function(_r, _g, _b) {
+            r = _r;
+            g = _g;
+            b = _b;
+        };
+    
+        setColors(_r, _g, _b);
+        this.getColors = function() {
+            var colors = {
+                r: r,
+                g: g,
+                b: b
+            };
+            return colors;
+        };
+    }
+    
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    
+    function valueFormat(d) {
+      if (d > 1000000000) {
+        return Math.round(d / 1000000000 * 10) / 10 + "B";
+      } else if (d > 1000000) {
+        return Math.round(d / 1000000 * 10) / 10 + "M";
+      } else if (d > 1000) {
+        return Math.round(d / 1000 * 10) / 10 + "K";
+      } else {
+        return d;
+      }
+    }
+    
+    var COLOR_FIRST = color1, COLOR_LAST = color2;
+    
+    var rgb = hexToRgb(COLOR_FIRST);
+    
+    var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
+    
+    rgb = hexToRgb(COLOR_LAST);
+    var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
+    
+    var startColors = COLOR_START.getColors(),
+        endColors = COLOR_END.getColors();
+    
+    var colors = [];
+    
+    for (var i = 0; i < COLOR_COUNTS; i++) {
+      var r = Interpolate(startColors.r, endColors.r, COLOR_COUNTS, i);
+      var g = Interpolate(startColors.g, endColors.g, COLOR_COUNTS, i);
+      var b = Interpolate(startColors.b, endColors.b, COLOR_COUNTS, i);
+      colors.push(new Color(r, g, b));
+    }
+  
+    
+    var projection = d3.geo.mercator()
+        .scale((width + 1) / 2 / Math.PI)
+        .translate([width / 2, height / 2])
+        .precision(.1);
+    
+    var path = d3.geo.path()
+        .projection(projection);
+    
+    var graticule = d3.geo.graticule();
+    
+    var svg = d3.select("#canvas-svg").append("svg")
+        .attr("class", "svgMain")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+          .call(d3.behavior.zoom().scaleExtent([0.5, 8]).on("zoom", zoom))
+        .append("g");
+    
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("x",-999999)
+        .attr("y",-999999)
+        .attr("width", 999999*2)
+        .attr("height", 999999*2)
+        .style("fill", "#EEEEEE");
+
+    svg.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", path);
+    
+    var valueHash = {};
+    
+    function zoom() {
+      svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+    function log10(val) {
+      return Math.log(val);
+    }
+    
+    data.forEach(function(d) {
+        valueHash[d[MAP_KEY]] = +d[MAP_VALUE];
+    });
+    
+    var quantize = d3.scale.quantize()
+        .domain([0, 1.0])
+        .range(d3.range(COLOR_COUNTS).map(function(i) { return i }));
+    
+    quantize.domain([d3.min(data, function(d){
+        return (+d[MAP_VALUE]) }),
+      d3.max(data, function(d){
+        return (+d[MAP_VALUE]) })]);
+    
+    d3.json("world.json", function(error, world) {
+      var countries = topojson.feature(world, world.objects.countries).features;
+    
+      svg.append("path")
+         .datum(graticule)
+         .attr("class", "choropleth")
+         .attr("d", path);
+    
+      var g = svg.append("g");
+    
+      g.append("path")
+       .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
+       .attr("class", "equator")
+       .attr("d", path);
+    
+      var country = g.selectAll(".country").data(countries);
+    
+      country.enter().insert("path")
+          .attr("class", "country")
+          .attr("d", path)
+          .attr("id", function(d,i) { return d.id; })
+          .attr("title", function(d) { return d.properties.name; })
+          .style("fill", function(d) {
+            // console.log(valueHash[d.properties.name]);
+            if (valueHash[d.properties.name]) {
+              var c = quantize((valueHash[d.properties.name]));
+              var color = colors[c].getColors();
+              return "rgb(" + color.r + "," + color.g +
+                  "," + color.b + ")";
+            } else {
+              // console.log('\"'+d.properties.name+'\" is not in data');
+              return "#ccc";
+            }
+          })
+          .on("mousemove", function(d) {
+              var html = "";
+    
+              html += "<div class=\"tooltip_kv\">";
+              html += "<span class=\"tooltip_key\">";
+              html += d.properties.name;
+              html += "</span>";
+              html += "<span class=\"tooltip_value\">";
+              html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "");
+              html += "";
+              html += "</span>";
+              html += "</div>";
+              
+              $("#tooltip-container").html(html);
+              $(this).attr("fill-opacity", "0.8");
+              $("#tooltip-container").show();
+              
+              var coordinates = d3.mouse(this);
+              
+              var map_width = $('.choropleth')[0].getBoundingClientRect().width;
+              
+              if (d3.event.pageX < map_width / 2) {
+                d3.select("#tooltip-container")
+                  .style("top", (d3.event.layerY + 15) + "px")
+                  .style("left", (d3.event.layerX + 15) + "px");
+              } else {
+                var tooltip_width = $("#tooltip-container").width();
+                d3.select("#tooltip-container")
+                  .style("top", (d3.event.layerY + 15) + "px")
+                  .style("left", (d3.event.layerX - tooltip_width - 30) + "px");
+              }
+          })
+          .on("mouseout", function() {
+                  $(this).attr("fill-opacity", "1.0");
+                  $("#tooltip-container").hide();
+              });
+      
+      g.append("path")
+          .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+          .attr("class", "boundary")
+          .attr("d", path);
+      
+      svg.attr("height", config.height * 2.2 / 3);
+    });
+    
+    d3.select(self.frameElement).style("height", (height * 2.3 / 3) + "px");
+  });
+}
+d3run();
+
+function redraw(){
+  $('.svgMain').remove();
+  d3run();
+}
+
+// color change
+$( ".redraw" ).click(function() {
+  redraw();
+});
+
+
+</script>
