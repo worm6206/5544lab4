@@ -233,9 +233,10 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
                   <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Color Control</h3>
                 </div>
                 <div class="panel-body">
-                  <p>Color1: <input id="color1" class="form-control input-sm jscolor" value="99ccff" style="text-align: center"></p>
-                  <p>Color2: <input id="color2" class="form-control input-sm jscolor" value="0050A1" style="text-align: center"></p>
-                  <p>Color Counts: <input id="color3" class="form-control input-sm" style="text-align: center" value="9"></p>
+                  <p><label for="select" class="control-label">Color low: </label><input id="color1" class="form-control input-sm jscolor" value="EFDDB2" style="text-align: center"></p>
+                  <p><label for="select" class="control-label">Color high: </label><input id="color2" class="form-control input-sm jscolor" value="FA360A" style="text-align: center"></p>
+                  <p><label for="select" class="control-label">Color Counts: </label><input id="color3" class="form-control input-sm" style="text-align: center" value="9"></p>
+                  <p><label for="select" class="control-label">Color outliers: </label><input id="color4" class="form-control input-sm jscolor" value="3C5955" style="text-align: center"></p>
                 </div>
               </div>
               <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;box-shadow: 5px 5px 5px #222;">
@@ -279,6 +280,7 @@ function d3run(){
   var MAP_VALUE = $( ".data option:selected" ).text();
   var color1 = '#'+$('#color1').val();
   var color2 = '#'+$('#color2').val();
+  var color3 = '#'+$('#color4').val();
   var COLOR_COUNTS = $('#color3').val();
 
   //set title
@@ -452,7 +454,7 @@ function d3run(){
                 return "rgb(" + color.r + "," + color.g +
                     "," + color.b + ")";
               }else{
-                return "#333";
+                return color3;
               }
 
             } else {
