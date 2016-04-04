@@ -190,10 +190,6 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
 <body>
 <div id="border-t"></div><div id="border-b"></div>
   <div id="border-l"></div><div id="border-r"></div>
-  <div class="botleft">
-    <a class="btn btn-primary btn-sm" style="z-index: 6;" href="vertical.html"><i class="fa fa-pause"></i> Vertical</a>
-    <a class="btn btn-primary btn-sm" style="z-index: 6;" href="horizontal.html"><i class="fa fa-pause rotate"></i> Horizontal</a>
-  </div>
   <div class="dropdown topleft" style="z-index: 6;">
         <div class="hideNseek">
           <p><span class="label label-info title" style="font-size: 15px;"></span></p>
@@ -254,6 +250,10 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
               </div>
         </div>
 
+        <div class="botleft">
+          <a class="btn btn-primary btn-sm" style="z-index: 7;" href="vertical.html"><i class="fa fa-pause"></i> Vertical</a>
+          <a class="btn btn-primary btn-sm" style="z-index: 7;" href="horizontal.html"><i class="fa fa-pause rotate"></i> Horizontal</a>
+        </div>
   </div>
   <div id="tooltip-container" style="z-index: 2"></div>
   <div class="controls cover" style="position: fixed;width: 100%; height: 100%;z-index: 3;"></div>
