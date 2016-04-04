@@ -15,6 +15,9 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <style>
   body {
@@ -74,12 +77,14 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
   }
 
   #tooltip-container {
+    font-family: "Gill Sans", Impact, sans-serif;
     position: absolute;
     background-color: #fff;
     color: #000;
     padding: 10px;
-    border: 1px solid;
+    /*border: 1px solid;*/
     display: none;
+    box-shadow: 5px 5px 5px #222;
   }
 
   .tooltip_key {
@@ -93,7 +98,7 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
 
   .topleft{
     position: fixed;
-    top: 0px;
+    top: 5px;
     left: 5px;
   }
 
@@ -161,23 +166,26 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
   }
   .rotate {
 
-/* Safari */
--webkit-transform: rotate(-90deg);
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
 
-/* Firefox */
--moz-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
 
-/* IE */
--ms-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
 
-/* Opera */
--o-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
 
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
-}
+  }
   select, option { width: 160px !important; }
+  label{
+    padding-top: 5px;
+  }
 </style>
 <body>
 <div id="border-t"></div><div id="border-b"></div>
@@ -187,15 +195,15 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     <a class="btn btn-primary btn-sm" style="z-index: 6;" href="horizontal.html"><i class="fa fa-pause rotate"></i> Horizontal</a>
   </div>
   <div class="dropdown topleft" style="z-index: 6;">
-      <h3><span class="label label-info title"></span></h3>
         <div class="hideNseek">
-          <button class="menuButton btn btn-primary btn-sm" style="margin-top: 10px;"><i class="fa fa-bars"></i> Menu</button>
+          <p><span class="label label-info title" style="font-size: 15px;"></span></p>
+          <button class="menuButton btn btn-primary btn-sm"><i class="fa fa-bars"></i> Menu</button>
         </div>
         <br>
         <div id="div-with-content" class="controls" style=" margin-left: 5px;" >
               <div class="panel panel-primary" style="width: 200px;float: left;;margin-right: 20px;">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Data Control</h3>
+                  <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Data Control</h3>
                 </div>
                 <div class="panel-body">
                   <div class="form-group">
@@ -214,12 +222,19 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
                       <select class="data form-control">
                       </select>
                     </div>
+                    <p>
+                      <label id="amount" class="control-label" for="amount"><div class="alert alert-dismissible alert-warning">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      <p>Select data to show slider</p>
+                    </div></label>
+                    </p>
+                    <div id="slider-range"></div>
                   </div>
                 </div>
               </div>
               <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Color Control</h3>
+                  <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Color Control</h3>
                 </div>
                 <div class="panel-body">
                   <p>Color1: <input id="color1" class="form-control input-sm jscolor" value="99ccff" style="text-align: center"></p>
@@ -229,7 +244,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
               </div>
               <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Actions</h3>
+                  <h3 class="panel-title"><i class="fa fa-wrench"></i> Actions</h3>
                 </div>
                 <div class="panel-body">
                   <a href="#" class="draw btn btn-success" style="width: 100%;margin-bottom: 5px;">Draw</a>
@@ -252,7 +267,8 @@ var dataSource = "<?php echo substr($files[0],2); ?>";
 
 
 var width = window.innerWidth-10, height = window.innerHeight-20; 
-
+var dataMin , dataMax;
+var selectMin, selectMax;
 
 // whole drawing function
 function d3run(){
@@ -262,6 +278,7 @@ function d3run(){
   var MAP_VALUE = $( ".data option:selected" ).text();
   var color1 = '#'+$('#color1').val();
   var color2 = '#'+$('#color2').val();
+  var COLOR_COUNTS = $('#color3').val();
 
   //set title
   $('.title').text($( ".data option:selected" ).text());
@@ -271,8 +288,13 @@ function d3run(){
   // start d3 drawing
   d3.csv(dataSource, function(err, data) {
     // console.log(d3.keys(data[0])[0]);
-    
-    var COLOR_COUNTS = $('#color3').val();
+    dataMin = d3.min(data, function(d){return (+d[MAP_VALUE]) });
+    dataMax = d3.max(data, function(d){return (+d[MAP_VALUE]) })+1;
+    if((typeof selectMin === "undefined")||(selectMin<dataMin)||(selectMax>dataMax)){
+      selectMin = dataMin;
+      selectMax = dataMax;
+    }
+    console.log(dataMin+"|"+dataMax);
     
     function Interpolate(start, end, steps, count) {
         var s = start,
@@ -388,14 +410,13 @@ function d3run(){
         valueHash[d[MAP_KEY]] = +d[MAP_VALUE];
     });
     
+
+
     var quantize = d3.scale.quantize()
         .domain([0, 1.0])
         .range(d3.range(COLOR_COUNTS).map(function(i) { return i }));
-    
-    quantize.domain([d3.min(data, function(d){
-        return (+d[MAP_VALUE]) }),
-      d3.max(data, function(d){
-        return (+d[MAP_VALUE]) })]);
+
+    quantize.domain([selectMin,selectMax]);
     
     d3.json("world.json", function(error, world) {
       var countries = topojson.feature(world, world.objects.countries).features;
@@ -422,13 +443,19 @@ function d3run(){
           .style("fill", function(d) {
             // console.log(valueHash[d.properties.name]);
             if (valueHash[d.properties.name]) {
-              var c = quantize((valueHash[d.properties.name]));
-              var color = colors[c].getColors();
-              return "rgb(" + color.r + "," + color.g +
-                  "," + color.b + ")";
+              if ((valueHash[d.properties.name]>selectMin)&&(valueHash[d.properties.name]<selectMax)) {
+                // console.log(valueHash[d.properties.name]);
+                var c = quantize((valueHash[d.properties.name]));
+                var color = colors[c].getColors();
+                return "rgb(" + color.r + "," + color.g +
+                    "," + color.b + ")";
+              }else{
+                return "#333";
+              }
+
             } else {
               // console.log('\"'+d.properties.name+'\" is not in data');
-              return "#AAA";
+              return "#333";
             }
           })
           .on("mousemove", function(d) {
@@ -437,7 +464,7 @@ function d3run(){
               html += "<div class=\"tooltip_kv\">";
               html += "<span class=\"tooltip_key\">";
               html += d.properties.name;
-              html += "</span>";
+              html += "</span><br>";
               html += "<span class=\"tooltip_value\">";
               html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "");
               html += "";
@@ -468,6 +495,10 @@ function d3run(){
                   $("#tooltip-container").hide();
               });
       
+      g.selectAll(".country").transition().call(endall, function() { 
+        resetSlider();
+      });
+
       g.append("path")
           .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
           .attr("class", "boundary")
@@ -478,7 +509,17 @@ function d3run(){
     
     // d3.select(self.frameElement).style("height", (height * 2.3 / 3) + "px");
   });
-    // $('.panel').width(200);
+
+ function endall(transition, callback) { 
+    if (transition.size() === 0) { callback() }
+    var n = 0; 
+    transition 
+        .each(function() { ++n; }) 
+        .each("end", function() { if (!--n) callback.apply(this, arguments); }); 
+  }   
+
+
+    
 }
 // d3run();
 
@@ -498,11 +539,13 @@ function stop(){
 // Actions
 $( ".redraw" ).click(function() {
   $(".controls").hide();
+  $("#canvas-svg").removeClass("blur");
   hide = true;
   redraw();
 });
 $( ".draw" ).click(function() {
   $(".controls").hide();
+  $("#canvas-svg").removeClass("blur");
   hide = true;
   draw();
 });
@@ -522,10 +565,10 @@ $(".controls").hide();
 $(".menuButton").click(function(){
   if (hide) {
     $(".controls").show();
-    $(".svgMain").addClass("blur");
+    $("#canvas-svg").addClass("blur");
   }else{
     $(".controls").hide();
-    $(".svgMain").removeClass("blur");
+    $("#canvas-svg").removeClass("blur");
   }
   hide = !hide;
 })
@@ -584,6 +627,39 @@ for($x = 0; $x < count($files); $x++) {
   <?php
 }
 ?>
+
+//slider
+function resetSlider() {
+    
+    try {
+        $('#slider-range').slider("destroy");
+    }
+    catch(err) {
+        // document.getElementById("demo").innerHTML = err.message;
+    }
+    try {
+        $('.alert-dismissible').remove();
+    }
+    catch(err) {
+        // document.getElementById("demo").innerHTML = err.message;
+    }
+    $( "#slider-range" ).slider({
+      range: true,
+      min: dataMin,
+      max: dataMax,
+      values: [ selectMin, selectMax ],
+      slide: function( event, ui ) {
+        $( "#amount" ).text( "Data range: " + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        selectMin = ui.values[ 0 ];
+        selectMax = ui.values[ 1 ];
+      }
+    });
+    $( "#amount" ).text( "Data range: " + $( "#slider-range" ).slider( "values", 0 ) +
+      " - " + $( "#slider-range" ).slider( "values", 1 ) );
+    selectMin = $( "#slider-range" ).slider( "values", 0 );
+    selectMax = $( "#slider-range" ).slider( "values", 1 );
+  };
+
 
 
 </script>
