@@ -1,4 +1,10 @@
-
+<?php
+// Start the session
+session_start();
+$dir    = './data/';
+$files = glob('./data/*.{csv}', GLOB_BRACE);
+// print_r($files);
+?>
 <!DOCTYPE html>
 <meta charset="utf-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
@@ -9,147 +15,195 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style>
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
 
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  width: 960px;
-  height: 500px;
-  position: relative;
-}
+  #canvas {
+  }
 
-#canvas {
-}
-
-#canvas-svg {
-}
+  #canvas-svg {
+  }
 
 
-.land {
-  fill: #222;
-}
+  .land {
+    fill: #222;
+  }
 
-.boundary {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1px;
-}
+  .boundary {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1px;
+  }
 
-#tooltip-container {
-  position: absolute;
-  background-color: #fff;
-  color: #000;
-  padding: 10px;
-  border: 1px solid;
-  display: none;
-}
-
-.tooltip_key {
-  font-weight: bold;
-}
-
-.tooltip_value {
-  margin-left: 20px;
-  float: right;
-}
-
-.topleft{
-  position: fixed;
-  top: 15px;
-  left: 15px;
-}
-
-.dropdown-menu{
-  padding: 5px;
-}
-
-li{
-  margin-top: 5px;
-}
-
-.dropdown-menu>li
-{ position:relative;
-  -webkit-user-select: none; /* Chrome/Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
-  user-select: none;
-  cursor:pointer;
-}
-.dropdown-menu .sub-menu {
-    left: 100%;
+  #tooltip-container {
     position: absolute;
-    top: 0;
-    display:none;
-    margin-top: -1px;
-  border-top-left-radius:0;
-  border-bottom-left-radius:0;
-  border-left-color:#fff;
-  box-shadow:none;
-}
-.right-caret:after
- {  content:"";
-    border-bottom: 4px solid transparent;
-    border-top: 4px solid transparent;
-    border-left: 4px solid orange;
-    display: inline-block;
-    height: 0;
-    opacity: 0.8;
-    vertical-align: middle;
-    width: 0;
-  margin-left:5px;
-}
-.left-caret:after
-{ content:"";
-    border-bottom: 4px solid transparent;
-    border-top: 4px solid transparent;
-    border-right: 4px solid orange;
-    display: inline-block;
-    height: 0;
-    opacity: 0.8;
-    vertical-align: middle;
-    width: 0;
-  margin-left:5px;
-}
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    border: 1px solid;
+    display: none;
+  }
 
+  .tooltip_key {
+    font-weight: bold;
+  }
+
+  .tooltip_value {
+    margin-left: 20px;
+    float: right;
+  }
+
+  .topleft{
+    position: fixed;
+    top: 0px;
+    left: 5px;
+  }
+
+  .dropdown-menu{
+    padding: 5px;
+  }
+
+  .dropdown-menu>li
+  { position:relative;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+    cursor:pointer;
+  }
+  .dropdown-menu .sub-menu {
+      left: 100%;
+      position: absolute;
+      top: 0;
+      display:none;
+      margin-top: -1px;
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+    border-left-color:#fff;
+    box-shadow:none;
+  }
+  .right-caret:after
+   {  content:"";
+      border-bottom: 4px solid transparent;
+      border-top: 4px solid transparent;
+      border-left: 4px solid orange;
+      display: inline-block;
+      height: 0;
+      opacity: 0.8;
+      vertical-align: middle;
+      width: 0;
+    margin-left:5px;
+  }
+  .left-caret:after
+  { content:"";
+      border-bottom: 4px solid transparent;
+      border-top: 4px solid transparent;
+      border-right: 4px solid orange;
+      display: inline-block;
+      height: 0;
+      opacity: 0.8;
+      vertical-align: middle;
+      width: 0;
+    margin-left:5px;
+  }
+  .blur {
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+  }
 </style>
 <body>
-  <div id="menu" class="dropdown topleft">
-    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">Controls
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li>
-        <p>Color1: <input id="color1" class="jscolor" value="99ccff"></p>
-      </li>
-      <li>
-        <p>Color2: <input id="color2" class="jscolor" value="0050A1"></p>
-      </li>
-      <li>
-        <p>Color Counts: <input id="color3" value="9"></p>
-      </li>
-      <li>
-        <button class="redraw btn btn-primary btn-xs" style="width: 100%">redraw</button>
-      </li> 
-    </ul>
+  <div class="dropdown topleft" style="display: table;z-index: 6;">
+      <h3><span class="label label-success title"></span></h3>
+        <div class="hideNseek">
+          <button class="menuButton btn btn-danger btn-sm" style="margin-top: 10px;">Menu</button>
+        </div>
+        <br>
+        <div id="div-with-content" class="controls" style=" margin-left: 5px;display: table-row;" >
+              <div class="panel panel-primary" style="display: table-cell;width: 200px;">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Data Control</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label for="select" class="control-label">Csv file</label>
+                    <div>
+                      <select class="csv form-control" onchange="changeCsv()">
+                      </select>
+                    </div>
+                    <label for="select" class="control-label">Country Name</label>
+                    <div>
+                      <select class="nation form-control">
+                      </select>
+                    </div>
+                    <label for="select" class="control-label">Data Column</label>
+                    <div>
+                      <select class="data form-control">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display: table-cell;width: 10px;">
+              </div>
+              <div class="panel panel-primary" style="display: table-cell;width: 200px;">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Color Control</h3>
+                </div>
+                <div class="panel-body">
+                  <p>Color1: <input id="color1" class="form-control input-sm jscolor" value="99ccff" style="text-align: center"></p>
+                  <p>Color2: <input id="color2" class="form-control input-sm jscolor" value="0050A1" style="text-align: center"></p>
+                  <p>Color Counts: <input id="color3" class="form-control input-sm" style="text-align: center" value="9"></p>
+                </div>
+              </div> 
+              <div style="display: table-cell;width: 10px;">
+              </div>
+              <div class="panel panel-primary" style="display: table-cell;width: 200px;">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Actions</h3>
+                </div>
+                <div class="panel-body">
+                  <a href="#" class="draw btn btn-default" style="width: 100%;margin-bottom: 5px;">Draw</a>
+                  <a href="#" class="stop btn btn-default" style="width: 100%;margin-bottom: 5px;">Stop</a>
+                  <!-- <a href="#" class="redraw btn btn-default" style="width: 100%;margin-bottom: 5px;">Redraw</a> -->
+                </div>
+              </div>
+        </div>
+
   </div>
-  <div id="tooltip-container"></div>
-  <div id="canvas-svg"></div>
+  <div id="tooltip-container" style="z-index: 2"></div>
+  <div class="controls cover" style="position: fixed;width: 100%; height: 100%;z-index: 3;"></div>
+  <div id="canvas-svg" style="z-index: 1;"></div>
 </body>
 <script>
 // config attributes, global
 var config = {"label0":"label 0","label1":"label 1"}
 
-var dataSource = "data/forest.csv";
+var dataSource = "<?php echo substr($files[0],2); ?>";
 
-var MAP_KEY = "Country Name";
-var MAP_VALUE = "Forest area (% of land area) [AG.LND.FRST.ZS]";
 
 
 
 // whole drawing function
 function d3run(){
+
+  //get controller values from user
+  var MAP_KEY = $( ".nation option:selected" ).text();
+  var MAP_VALUE = $( ".data option:selected" ).text();
   var color1 = '#'+$('#color1').val();
   var color2 = '#'+$('#color2').val();
+
+  //set title
+  $('.title').text($( ".data option:selected" ).text());
+
+  console.log("Key ="+MAP_KEY+", Value ="+MAP_VALUE);
+
+  // start d3 drawing
   d3.csv(dataSource, function(err, data) {
     // console.log(d3.keys(data[0])[0]);
     var width = window.innerWidth-10,
@@ -362,17 +416,111 @@ function d3run(){
     d3.select(self.frameElement).style("height", (height * 2.3 / 3) + "px");
   });
 }
-d3run();
+// d3run();
+
+function draw(){
+  $('.svgMain').remove();
+  d3run();
+}
 
 function redraw(){
   $('.svgMain').remove();
   d3run();
 }
+function stop(){
+  $('.svgMain').remove();
+  test();
+}
 
-// color change
+// Actions
 $( ".redraw" ).click(function() {
+  $(".controls").hide();
+  hide = true;
   redraw();
 });
+$( ".draw" ).click(function() {
+  $(".controls").hide();
+  hide = true;
+  draw();
+});
+$( ".stop" ).click(function() {
+  stop();
+});
+
+// color change
+$('.color1label').click(function(){
+  $('#color1').click();
+});
+
+// hide control menu
+var hide = true;
+$(".controls").hide();
+
+$(".menuButton").click(function(){
+  if (hide) {
+    $(".controls").show();
+    $(".svgMain").addClass("blur");
+  }else{
+    $(".controls").hide();
+    $(".svgMain").removeClass("blur");
+  }
+  hide = !hide;
+})
+
+// header select
+var headers=[];
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: dataSource,
+        dataType: "text",
+        success: function(data) {processData(data);}
+     });
+});
+
+function processData(allText) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    headers = allTextLines[0].split(',');
+    // console.log(headers);
+    for(var x = 0;x<headers.length;x++){
+      $('.nation').append($('<option>', {
+          value: x,
+          text: headers[x]
+      }));
+      $('.data').append($('<option>', {
+          value: x,
+          text: headers[x]
+      }));
+    }
+}
+
+// change csv source
+function changeCsv(){
+  dataSource = 'data/'+$( ".csv option:selected" ).text();
+  $('.nation').find('option').remove();
+  $('.data').find('option').remove();
+  $.ajax({
+    type: "GET",
+    url: dataSource,
+    dataType: "text",
+    success: function(data) {processData(data);}
+ });
+}
+
+// file scan
+<?php
+for($x = 0; $x < count($files); $x++) {
+  // echo $files[$x];
+  // echo "<br>";
+  ?>
+  $('.csv').append($('<option>', {
+    value: <?php echo $x ?>,
+    text: "<?php echo substr($files[$x],7); ?>"
+  }));
+  // console.log("<?php echo substr($files[$x],7); ?>");
+  <?php
+}
+?>
 
 
 </script>
