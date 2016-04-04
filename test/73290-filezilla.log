@@ -1,0 +1,193 @@
+2016-03-24 23:55:08 45218 1 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-24 23:55:08 45218 1 Response: fzSftp started, protocol_version=2
+2016-03-24 23:55:08 45218 1 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-24 23:55:08 45218 1 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-24 23:55:09 45218 1 Command: Pass: ********
+2016-03-24 23:55:09 45218 1 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-24 23:55:09 45218 1 Status: Retrieving directory listing...
+2016-03-24 23:55:09 45218 1 Command: pwd
+2016-03-24 23:55:09 45218 1 Response: Current directory is: "/home/1/yenk"
+2016-03-24 23:55:09 45218 1 Command: ls
+2016-03-24 23:55:09 45218 1 Status: Listing directory /home/1/yenk
+2016-03-24 23:55:10 45218 1 Status: Directory listing of "/home/1/yenk" successful
+2016-03-24 23:55:13 45218 1 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS"...
+2016-03-24 23:55:13 45218 1 Command: cd "WINDOWS"
+2016-03-24 23:55:13 45218 1 Response: New directory is: "/home/1/yenk/WINDOWS"
+2016-03-24 23:55:13 45218 1 Command: ls
+2016-03-24 23:55:13 45218 1 Status: Listing directory /home/1/yenk/WINDOWS
+2016-03-24 23:55:13 45218 1 Status: Directory listing of "/home/1/yenk/WINDOWS" successful
+2016-03-24 23:55:14 45218 1 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk"...
+2016-03-24 23:55:14 45218 1 Command: cd "yenk"
+2016-03-24 23:55:14 45218 1 Response: New directory is: "/home/1/yenk/WINDOWS/yenk"
+2016-03-24 23:55:14 45218 1 Command: ls
+2016-03-24 23:55:14 45218 1 Status: Listing directory /home/1/yenk/WINDOWS/yenk
+2016-03-24 23:55:14 45218 1 Status: Directory listing of "/home/1/yenk/WINDOWS/yenk" successful
+2016-03-24 23:55:15 45218 1 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop"...
+2016-03-24 23:55:15 45218 1 Command: cd "Desktop"
+2016-03-24 23:55:15 45218 1 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-24 23:55:15 45218 1 Command: ls
+2016-03-24 23:55:15 45218 1 Status: Listing directory /home/1/yenk/WINDOWS/yenk/Desktop
+2016-03-24 23:55:16 45218 1 Status: Directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop" successful
+2016-03-24 23:55:19 45218 3 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-24 23:55:19 45218 3 Response: fzSftp started, protocol_version=2
+2016-03-24 23:55:19 45218 3 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-24 23:55:19 45218 3 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-24 23:55:20 45218 3 Command: Pass: ********
+2016-03-24 23:55:21 45218 3 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-24 23:55:21 45218 3 Status: Starting upload of /Users/kevinyen/Desktop/fvr-6-25-14-eng.pdf
+2016-03-24 23:55:21 45218 3 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-24 23:55:22 45218 3 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-24 23:55:22 45218 3 Command: put "/Users/kevinyen/Desktop/fvr-6-25-14-eng.pdf" "fvr-6-25-14-eng.pdf"
+2016-03-24 23:55:22 45218 3 Status: local:/Users/kevinyen/Desktop/fvr-6-25-14-eng.pdf => remote:/home/1/yenk/WINDOWS/yenk/Desktop/fvr-6-25-14-eng.pdf
+2016-03-24 23:55:28 45218 3 Status: File transfer successful, transferred 574996 bytes in 5 seconds
+2016-03-24 23:55:28 45218 3 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop"...
+2016-03-24 23:55:28 45218 3 Command: ls
+2016-03-24 23:55:28 45218 3 Status: Listing directory /home/1/yenk/WINDOWS/yenk/Desktop
+2016-03-24 23:55:28 45218 3 Status: Directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop" successful
+2016-03-24 23:56:28 45218 3 Status: Disconnected from server
+2016-03-27 17:10:47 5287 1 Status: Connecting to kevinyen.net...
+2016-03-27 17:10:47 5287 1 Response: fzSftp started, protocol_version=2
+2016-03-27 17:10:47 5287 1 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-27 17:10:47 5287 1 Command: open "ec2-user@kevinyen.net" 22
+2016-03-27 17:10:48 5287 1 Status: Connected to kevinyen.net
+2016-03-27 17:10:48 5287 1 Status: Retrieving directory listing of "/var/www/html"...
+2016-03-27 17:10:48 5287 1 Command: cd "/var/www/html"
+2016-03-27 17:10:48 5287 1 Response: New directory is: "/var/www/html"
+2016-03-27 17:10:48 5287 1 Command: ls
+2016-03-27 17:10:48 5287 1 Status: Listing directory /var/www/html
+2016-03-27 17:10:49 5287 1 Status: Directory listing of "/var/www/html" successful
+2016-03-27 17:11:02 5287 1 Status: Retrieving directory listing of "/var/www/html/templates"...
+2016-03-27 17:11:02 5287 1 Command: cd "templates"
+2016-03-27 17:11:03 5287 1 Response: New directory is: "/var/www/html/templates"
+2016-03-27 17:11:03 5287 1 Command: ls
+2016-03-27 17:11:03 5287 1 Status: Listing directory /var/www/html/templates
+2016-03-27 17:11:03 5287 1 Status: Directory listing of "/var/www/html/templates" successful
+2016-03-27 17:11:14 5287 3 Status: Connecting to kevinyen.net...
+2016-03-27 17:11:14 5287 3 Response: fzSftp started, protocol_version=2
+2016-03-27 17:11:14 5287 3 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-27 17:11:14 5287 3 Command: open "ec2-user@kevinyen.net" 22
+2016-03-27 17:11:15 5287 3 Status: Connected to kevinyen.net
+2016-03-27 17:11:15 5287 3 Status: Starting upload of /Users/kevinyen/code/web/dist/templates/about.html
+2016-03-27 17:11:15 5287 3 Command: cd "/var/www/html/templates"
+2016-03-27 17:11:15 5287 3 Response: New directory is: "/var/www/html/templates"
+2016-03-27 17:11:18 5287 3 Command: put "/Users/kevinyen/code/web/dist/templates/about.html" "about.html"
+2016-03-27 17:11:18 5287 3 Status: local:/Users/kevinyen/code/web/dist/templates/about.html => remote:/var/www/html/templates/about.html
+2016-03-27 17:11:18 5287 3 Status: File transfer successful, transferred 1929 bytes in 1 second
+2016-03-27 17:11:18 5287 3 Status: Retrieving directory listing of "/var/www/html/templates"...
+2016-03-27 17:11:18 5287 3 Command: ls
+2016-03-27 17:11:18 5287 3 Status: Listing directory /var/www/html/templates
+2016-03-27 17:11:19 5287 3 Status: Directory listing of "/var/www/html/templates" successful
+2016-03-27 17:12:18 5287 3 Status: Disconnected from server
+2016-03-28 01:12:37 12022 1 Status: Connecting to kevinyen.net...
+2016-03-28 01:12:37 12022 1 Response: fzSftp started, protocol_version=2
+2016-03-28 01:12:37 12022 1 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-28 01:12:37 12022 1 Command: open "ec2-user@kevinyen.net" 22
+2016-03-28 01:12:38 12022 1 Status: Connected to kevinyen.net
+2016-03-28 01:12:39 12022 1 Status: Retrieving directory listing of "/var/www/html"...
+2016-03-28 01:12:39 12022 1 Command: cd "/var/www/html"
+2016-03-28 01:12:39 12022 1 Response: New directory is: "/var/www/html"
+2016-03-28 01:12:39 12022 1 Command: ls
+2016-03-28 01:12:39 12022 1 Status: Listing directory /var/www/html
+2016-03-28 01:12:40 12022 1 Status: Directory listing of "/var/www/html" successful
+2016-03-28 01:12:41 12022 1 Status: Disconnected from server
+2016-03-28 01:12:41 12022 1 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-28 01:12:41 12022 1 Response: fzSftp started, protocol_version=2
+2016-03-28 01:12:41 12022 1 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-28 01:12:41 12022 1 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-28 01:12:42 12022 1 Command: Pass: ********
+2016-03-28 01:12:43 12022 1 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-28 01:12:44 12022 1 Status: Retrieving directory listing...
+2016-03-28 01:12:44 12022 1 Command: pwd
+2016-03-28 01:12:44 12022 1 Response: Current directory is: "/home/1/yenk"
+2016-03-28 01:12:44 12022 1 Command: ls
+2016-03-28 01:12:44 12022 1 Status: Listing directory /home/1/yenk
+2016-03-28 01:12:44 12022 1 Status: Directory listing of "/home/1/yenk" successful
+2016-03-28 01:12:48 12022 1 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS"...
+2016-03-28 01:12:48 12022 1 Command: cd "WINDOWS"
+2016-03-28 01:12:48 12022 1 Response: New directory is: "/home/1/yenk/WINDOWS"
+2016-03-28 01:12:48 12022 1 Command: ls
+2016-03-28 01:12:48 12022 1 Status: Listing directory /home/1/yenk/WINDOWS
+2016-03-28 01:12:48 12022 1 Status: Directory listing of "/home/1/yenk/WINDOWS" successful
+2016-03-28 01:12:49 12022 1 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk"...
+2016-03-28 01:12:49 12022 1 Command: cd "yenk"
+2016-03-28 01:12:49 12022 1 Response: New directory is: "/home/1/yenk/WINDOWS/yenk"
+2016-03-28 01:12:49 12022 1 Command: ls
+2016-03-28 01:12:49 12022 1 Status: Listing directory /home/1/yenk/WINDOWS/yenk
+2016-03-28 01:12:50 12022 1 Status: Directory listing of "/home/1/yenk/WINDOWS/yenk" successful
+2016-03-28 01:12:51 12022 1 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop"...
+2016-03-28 01:12:51 12022 1 Command: cd "Desktop"
+2016-03-28 01:12:51 12022 1 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-28 01:12:51 12022 1 Command: ls
+2016-03-28 01:12:51 12022 1 Status: Listing directory /home/1/yenk/WINDOWS/yenk/Desktop
+2016-03-28 01:12:52 12022 1 Status: Directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop" successful
+2016-03-28 01:12:55 12022 3 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-28 01:12:55 12022 4 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-28 01:12:55 12022 3 Response: fzSftp started, protocol_version=2
+2016-03-28 01:12:55 12022 3 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-28 01:12:55 12022 3 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-28 01:12:55 12022 5 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-28 01:12:55 12022 4 Response: fzSftp started, protocol_version=2
+2016-03-28 01:12:55 12022 4 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-28 01:12:55 12022 6 Status: Connecting to stdlinux.cse.ohio-state.edu...
+2016-03-28 01:12:55 12022 5 Response: fzSftp started, protocol_version=2
+2016-03-28 01:12:55 12022 5 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-28 01:12:55 12022 4 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-28 01:12:55 12022 6 Response: fzSftp started, protocol_version=2
+2016-03-28 01:12:55 12022 6 Command: keyfile "/Users/kevinyen/key2.ppk"
+2016-03-28 01:12:55 12022 5 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-28 01:12:55 12022 6 Command: open "yenk@stdlinux.cse.ohio-state.edu" 22
+2016-03-28 01:12:55 12022 5 Command: Pass: ********
+2016-03-28 01:12:55 12022 4 Command: Pass: ********
+2016-03-28 01:12:55 12022 6 Command: Pass: ********
+2016-03-28 01:12:55 12022 3 Command: Pass: ********
+2016-03-28 01:12:56 12022 5 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-28 01:12:56 12022 5 Status: Starting upload of /Users/kevinyen/Desktop/papers/TimeNotes- A Study on Effective Chart Visualization and Interaction Techniques for Time-Series Data.pdf
+2016-03-28 01:12:56 12022 5 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:56 12022 5 Error: Directory /home/1/yenk/WINDOWS/yenk/Desktop/papers: no such file or directory
+2016-03-28 01:12:56 12022 5 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-28 01:12:56 12022 5 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-28 01:12:56 12022 5 Command: mkdir "papers"
+2016-03-28 01:12:57 12022 5 Response: mkdir /home/1/yenk/WINDOWS/yenk/Desktop/papers: OK
+2016-03-28 01:12:57 12022 5 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 6 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-28 01:12:57 12022 4 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-28 01:12:57 12022 5 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 5 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop/papers"...
+2016-03-28 01:12:57 12022 5 Command: ls
+2016-03-28 01:12:57 12022 5 Status: Listing directory /home/1/yenk/WINDOWS/yenk/Desktop/papers
+2016-03-28 01:12:57 12022 3 Status: Connected to stdlinux.cse.ohio-state.edu
+2016-03-28 01:12:57 12022 5 Command: put "/Users/kevinyen/Desktop/papers/TimeNotes- A Study on Effective Chart Visualization and Interaction Techniques for Time-Series Data.pdf" "TimeNotes- A Study on Effective Chart Visualization and Interaction Techniques for Time-Series Data.pdf"
+2016-03-28 01:12:57 12022 6 Status: Starting upload of /Users/kevinyen/Desktop/papers/Visualization, Selection, and Analysis of Traffic Flows.pdf
+2016-03-28 01:12:57 12022 6 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 5 Status: local:/Users/kevinyen/Desktop/papers/TimeNotes- A Study on Effective Chart Visualization and Interaction Techniques for Time-Series Data.pdf => remote:/home/1/yenk/WINDOWS/yenk/Desktop/papers/TimeNotes- A Study on Effective Chart Visualization and Interaction Techniques for Time-Series Data.pdf
+2016-03-28 01:12:57 12022 4 Status: Starting upload of /Users/kevinyen/Desktop/papers/HOLA- Human-like Orthogonal Network Layout.pdf
+2016-03-28 01:12:57 12022 6 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 6 Command: put "/Users/kevinyen/Desktop/papers/Visualization, Selection, and Analysis of Traffic Flows.pdf" "Visualization, Selection, and Analysis of Traffic Flows.pdf"
+2016-03-28 01:12:57 12022 4 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 3 Status: Starting upload of /Users/kevinyen/Desktop/papers/Beyond Memorability- Visualization Recognition and Recall.pdf
+2016-03-28 01:12:57 12022 3 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 4 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:57 12022 4 Command: put "/Users/kevinyen/Desktop/papers/HOLA- Human-like Orthogonal Network Layout.pdf" "HOLA- Human-like Orthogonal Network Layout.pdf"
+2016-03-28 01:12:57 12022 6 Status: local:/Users/kevinyen/Desktop/papers/Visualization, Selection, and Analysis of Traffic Flows.pdf => remote:/home/1/yenk/WINDOWS/yenk/Desktop/papers/Visualization, Selection, and Analysis of Traffic Flows.pdf
+2016-03-28 01:12:58 12022 3 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop/papers"
+2016-03-28 01:12:58 12022 3 Command: put "/Users/kevinyen/Desktop/papers/Beyond Memorability- Visualization Recognition and Recall.pdf" "Beyond Memorability- Visualization Recognition and Recall.pdf"
+2016-03-28 01:12:58 12022 4 Status: local:/Users/kevinyen/Desktop/papers/HOLA- Human-like Orthogonal Network Layout.pdf => remote:/home/1/yenk/WINDOWS/yenk/Desktop/papers/HOLA- Human-like Orthogonal Network Layout.pdf
+2016-03-28 01:12:58 12022 3 Status: local:/Users/kevinyen/Desktop/papers/Beyond Memorability- Visualization Recognition and Recall.pdf => remote:/home/1/yenk/WINDOWS/yenk/Desktop/papers/Beyond Memorability- Visualization Recognition and Recall.pdf
+2016-03-28 01:13:59 12022 4 Status: File transfer successful, transferred 1348673 bytes in 61 seconds
+2016-03-28 01:13:59 12022 4 Status: Starting upload of /Users/kevinyen/Desktop/papers/Visualizing and Interacting with Kernelized Data.pdf
+2016-03-28 01:13:59 12022 4 Command: put "/Users/kevinyen/Desktop/papers/Visualizing and Interacting with Kernelized Data.pdf" "Visualizing and Interacting with Kernelized Data.pdf"
+2016-03-28 01:14:00 12022 4 Status: local:/Users/kevinyen/Desktop/papers/Visualizing and Interacting with Kernelized Data.pdf => remote:/home/1/yenk/WINDOWS/yenk/Desktop/papers/Visualizing and Interacting with Kernelized Data.pdf
+2016-03-28 01:14:58 12022 4 Status: File transfer successful, transferred 1327677 bytes in 58 seconds
+2016-03-28 01:15:07 12022 3 Status: File transfer successful, transferred 3871348 bytes in 129 seconds
+2016-03-28 01:15:58 12022 4 Status: Disconnected from server
+2016-03-28 01:16:07 12022 3 Status: Disconnected from server
+2016-03-28 01:16:58 12022 6 Status: File transfer successful, transferred 11288973 bytes in 240 seconds
+2016-03-28 01:17:25 12022 5 Status: File transfer successful, transferred 11336929 bytes in 268 seconds
+2016-03-28 01:17:25 12022 5 Status: Retrieving directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop"...
+2016-03-28 01:17:25 12022 5 Command: cd "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-28 01:17:25 12022 5 Response: New directory is: "/home/1/yenk/WINDOWS/yenk/Desktop"
+2016-03-28 01:17:25 12022 5 Command: ls
+2016-03-28 01:17:26 12022 5 Status: Listing directory /home/1/yenk/WINDOWS/yenk/Desktop
+2016-03-28 01:17:26 12022 5 Status: Directory listing of "/home/1/yenk/WINDOWS/yenk/Desktop" successful
+2016-03-28 01:17:58 12022 6 Status: Disconnected from server
+2016-03-28 01:18:25 12022 5 Status: Disconnected from server
