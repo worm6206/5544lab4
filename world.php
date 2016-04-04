@@ -197,7 +197,7 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
         </div>
         <br>
         <div id="div-with-content" class="controls" style=" margin-left: 5px;" >
-              <div class="panel panel-primary" style="width: 200px;float: left;;margin-right: 20px;">
+              <div class="panel panel-primary" style="width: 200px;float: left;;margin-right: 20px;box-shadow: 5px 5px 5px #222;">
                 <div class="panel-heading">
                   <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Data Control</h3>
                 </div>
@@ -228,7 +228,7 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
                   </div>
                 </div>
               </div>
-              <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;">
+              <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;box-shadow: 5px 5px 5px #222;">
                 <div class="panel-heading">
                   <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Color Control</h3>
                 </div>
@@ -238,7 +238,7 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
                   <p>Color Counts: <input id="color3" class="form-control input-sm" style="text-align: center" value="9"></p>
                 </div>
               </div>
-              <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;">
+              <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;box-shadow: 5px 5px 5px #222;">
                 <div class="panel-heading">
                   <h3 class="panel-title"><i class="fa fa-wrench"></i> Actions</h3>
                 </div>
@@ -269,6 +269,7 @@ var dataSource = "<?php echo substr($files[0],2); ?>";
 var width = window.innerWidth-10, height = window.innerHeight-20; 
 var dataMin , dataMax;
 var selectMin, selectMax;
+var columnSelected;
 
 // whole drawing function
 function d3run(){
@@ -283,18 +284,19 @@ function d3run(){
   //set title
   $('.title').text($( ".data option:selected" ).text());
 
-  console.log("Key ="+MAP_KEY+", Value ="+MAP_VALUE);
+  // console.log("Key ="+MAP_KEY+", Value ="+MAP_VALUE);
 
   // start d3 drawing
   d3.csv(dataSource, function(err, data) {
     // console.log(d3.keys(data[0])[0]);
     dataMin = d3.min(data, function(d){return (+d[MAP_VALUE]) });
     dataMax = d3.max(data, function(d){return (+d[MAP_VALUE]) })+1;
-    if((typeof selectMin === "undefined")||(selectMin<dataMin)||(selectMax>dataMax)){
+    if((typeof selectMin === "undefined")||(selectMin<dataMin)||(selectMax>dataMax+1)||(columnSelected!=MAP_VALUE)){
+      console.log("Reset: "+ selectMin+"|"+selectMax+" -> "+dataMin+"|"+dataMax );
       selectMin = dataMin;
       selectMax = dataMax;
+      columnSelected = MAP_VALUE;
     }
-    console.log(dataMin+"|"+dataMax);
     
     function Interpolate(start, end, steps, count) {
         var s = start,
@@ -516,10 +518,7 @@ function d3run(){
     transition 
         .each(function() { ++n; }) 
         .each("end", function() { if (!--n) callback.apply(this, arguments); }); 
-  }   
-
-
-    
+  }  
 }
 // d3run();
 
