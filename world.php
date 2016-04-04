@@ -11,13 +11,50 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="js/jscolor.js"></script>
-<link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+<link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 <style>
   body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+
+  #border-t, #border-b, #border-l, #border-r {
+      position: fixed;
+      background: #4e5d6c;
+      z-index: 9999;
+    }
+
+    #border-t {
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+    }
+
+    #border-b {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+    }
+
+    #border-l {
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+    }
+
+    #border-r {
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+    }
+  
 
   #canvas {
   }
@@ -57,6 +94,12 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
   .topleft{
     position: fixed;
     top: 0px;
+    left: 5px;
+  }
+
+  .botleft{
+    position: fixed;
+    bottom: 5px;
     left: 5px;
   }
 
@@ -116,16 +159,41 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
     -ms-filter: blur(10px);
     filter: blur(10px);
   }
+  .rotate {
+
+/* Safari */
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform: rotate(-90deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+  select, option { width: 160px !important; }
 </style>
 <body>
-  <div class="dropdown topleft" style="display: table;z-index: 6;">
-      <h3><span class="label label-success title"></span></h3>
+<div id="border-t"></div><div id="border-b"></div>
+  <div id="border-l"></div><div id="border-r"></div>
+  <div class="botleft">
+    <a class="btn btn-primary btn-sm" style="z-index: 6;" href="vertical.html"><i class="fa fa-pause"></i> Vertical</a>
+    <a class="btn btn-primary btn-sm" style="z-index: 6;" href="horizontal.html"><i class="fa fa-pause rotate"></i> Horizontal</a>
+  </div>
+  <div class="dropdown topleft" style="z-index: 6;">
+      <h3><span class="label label-info title"></span></h3>
         <div class="hideNseek">
-          <button class="menuButton btn btn-danger btn-sm" style="margin-top: 10px;">Menu</button>
+          <button class="menuButton btn btn-primary btn-sm" style="margin-top: 10px;"><i class="fa fa-bars"></i> Menu</button>
         </div>
         <br>
-        <div id="div-with-content" class="controls" style=" margin-left: 5px;display: table-row;" >
-              <div class="panel panel-primary" style="display: table-cell;width: 200px;">
+        <div id="div-with-content" class="controls" style=" margin-left: 5px;" >
+              <div class="panel panel-primary" style="width: 200px;float: left;;margin-right: 20px;">
                 <div class="panel-heading">
                   <h3 class="panel-title">Data Control</h3>
                 </div>
@@ -149,9 +217,7 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
                   </div>
                 </div>
               </div>
-              <div style="display: table-cell;width: 10px;">
-              </div>
-              <div class="panel panel-primary" style="display: table-cell;width: 200px;">
+              <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;">
                 <div class="panel-heading">
                   <h3 class="panel-title">Color Control</h3>
                 </div>
@@ -160,16 +226,14 @@ $files = glob('./data/*.{csv}', GLOB_BRACE);
                   <p>Color2: <input id="color2" class="form-control input-sm jscolor" value="0050A1" style="text-align: center"></p>
                   <p>Color Counts: <input id="color3" class="form-control input-sm" style="text-align: center" value="9"></p>
                 </div>
-              </div> 
-              <div style="display: table-cell;width: 10px;">
               </div>
-              <div class="panel panel-primary" style="display: table-cell;width: 200px;">
+              <div class="panel panel-primary" style="width: 200px;float: left;margin-right: 20px;">
                 <div class="panel-heading">
                   <h3 class="panel-title">Actions</h3>
                 </div>
                 <div class="panel-body">
-                  <a href="#" class="draw btn btn-default" style="width: 100%;margin-bottom: 5px;">Draw</a>
-                  <a href="#" class="stop btn btn-default" style="width: 100%;margin-bottom: 5px;">Stop</a>
+                  <a href="#" class="draw btn btn-success" style="width: 100%;margin-bottom: 5px;">Draw</a>
+                  <a href="#" class="stop btn btn-danger" style="width: 100%;margin-bottom: 5px;">Stop</a>
                   <!-- <a href="#" class="redraw btn btn-default" style="width: 100%;margin-bottom: 5px;">Redraw</a> -->
                 </div>
               </div>
@@ -187,6 +251,7 @@ var config = {"label0":"label 0","label1":"label 1"}
 var dataSource = "<?php echo substr($files[0],2); ?>";
 
 
+var width = window.innerWidth-10, height = window.innerHeight-20; 
 
 
 // whole drawing function
@@ -206,8 +271,6 @@ function d3run(){
   // start d3 drawing
   d3.csv(dataSource, function(err, data) {
     // console.log(d3.keys(data[0])[0]);
-    var width = window.innerWidth-10,
-        height = window.innerHeight-20;
     
     var COLOR_COUNTS = $('#color3').val();
     
@@ -304,7 +367,7 @@ function d3run(){
         .attr("y",-999999)
         .attr("width", 999999*2)
         .attr("height", 999999*2)
-        .style("fill", "#EEEEEE");
+        .style("fill", "#2b3e50");
 
     svg.append("path")
         .datum(graticule)
@@ -365,7 +428,7 @@ function d3run(){
                   "," + color.b + ")";
             } else {
               // console.log('\"'+d.properties.name+'\" is not in data');
-              return "#ccc";
+              return "#AAA";
             }
           })
           .on("mousemove", function(d) {
@@ -410,11 +473,12 @@ function d3run(){
           .attr("class", "boundary")
           .attr("d", path);
       
-      svg.attr("height", config.height * 2.2 / 3);
+      // svg.attr("height", config.height * 2.2 / 3);
     });
     
-    d3.select(self.frameElement).style("height", (height * 2.3 / 3) + "px");
+    // d3.select(self.frameElement).style("height", (height * 2.3 / 3) + "px");
   });
+    // $('.panel').width(200);
 }
 // d3run();
 
@@ -429,7 +493,6 @@ function redraw(){
 }
 function stop(){
   $('.svgMain').remove();
-  test();
 }
 
 // Actions
