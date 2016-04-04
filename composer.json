@@ -1,0 +1,12 @@
+{
+    "name": "kevinyen/5544lab4",
+    "description": "lab4 for CSE 5544 at Ohio State University by Kevin Yen",
+    "license": "All reserved",
+    "authors": [
+        {
+            "name": "Kevin Yen",
+            "email": "worm6206@gmail.com"
+        }
+    ],
+    "require": {}
+}
